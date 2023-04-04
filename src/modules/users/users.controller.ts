@@ -4,7 +4,6 @@ import {
   Delete,
   ForbiddenException,
   Get,
-  NotFoundException,
   OnModuleInit,
   Param,
   Patch,
@@ -24,6 +23,7 @@ import {
 } from 'src/modules/users/entities/user.entity';
 import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
 import { UsersService } from 'src/modules/users/users.service';
+import { MailService } from 'src/services/MailService/mail.service';
 
 @ApiTags('users')
 @Controller('users')
@@ -37,16 +37,26 @@ export class UsersController implements OnModuleInit {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(
+  async create(
     @Body() data: CreateUserDto,
     @Query('role') role: UserRole,
     @Request() req,
   ): Promise<UserWithoutPassword> {
     const user: UserInJwt = req.user;
-    if (!UsersService.isUserAllowedToInteractWithRole(user, role)) {
+    if (user.role !== UserRole.ADMIN) {
       throw new ForbiddenException();
     }
-    return this.usersDao.create({ ...data, role });
+
+    const password = UsersService.generatePassword();
+    const mailService = await MailService.getService();
+    await mailService.sendMail({
+      from: '"Спортивная школа" <noreply@sport-school.ru>', // sender address
+      to: data.email, // list of receivers
+      subject: 'Ваш пароль', // Subject line
+      text: `Ваш пароль для входа в систему: ${password}`, // plain text body
+    });
+
+    return this.usersDao.create({ ...data, role }, password);
   }
 
   @Get()
@@ -64,16 +74,16 @@ export class UsersController implements OnModuleInit {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  findOne(
+  async findOne(
     @Param('id') id: string,
-    @Query('role') role: UserRole,
     @Request() req,
   ): Promise<UserWithoutPassword> {
     const user: UserInJwt = req.user;
-    if (!UsersService.isUserAllowedToInteractWithRole(user, role)) {
+    const result = await this.usersDao.findById(id);
+    if (!UsersService.isUserAllowedToInteractWithRole(user, result.role)) {
       throw new ForbiddenException();
     }
-    return this.usersDao.findByIdAndRole(id, role);
+    return result;
   }
 
   @Patch(':id')
@@ -82,31 +92,20 @@ export class UsersController implements OnModuleInit {
     @Param('id') id: string,
     @Body() body: UpdateUserDto,
     @Request() req,
-    @Query('role') role: UserRole,
   ): Promise<UserWithoutPassword> {
     const user: UserInJwt = req.user;
-    if (!UsersService.isUserAllowedToInteractWithRole(user, role)) {
+    if (user.role !== UserRole.ADMIN) {
       throw new ForbiddenException();
-    }
-    if (!(await this.usersDao.findByIdAndRole(id, role))) {
-      throw new NotFoundException();
     }
     return this.usersDao.update(id, body);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async remove(
-    @Param('id') id: string,
-    @Request() req,
-    @Query('role') role: UserRole,
-  ): Promise<void> {
+  async remove(@Param('id') id: string, @Request() req): Promise<void> {
     const user: UserInJwt = req.user;
-    if (!UsersService.isUserAllowedToInteractWithRole(user, role)) {
+    if (user.role !== UserRole.ADMIN) {
       throw new ForbiddenException();
-    }
-    if (!(await this.usersDao.findByIdAndRole(id, role))) {
-      return;
     }
     await this.usersDao.remove(id);
   }

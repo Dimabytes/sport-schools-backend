@@ -51,13 +51,11 @@ export class UsersService {
 
     /**
      * @param id
-     * @param role
      * @returns UserWithoutPassword
      * @throws ApiError
      */
     public static usersControllerFindOne(
         id: string,
-        role: string,
     ): CancelablePromise<UserWithoutPassword> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -65,22 +63,17 @@ export class UsersService {
             path: {
                 'id': id,
             },
-            query: {
-                'role': role,
-            },
         });
     }
 
     /**
      * @param id
-     * @param role
      * @param requestBody
      * @returns UserWithoutPassword
      * @throws ApiError
      */
     public static usersControllerUpdate(
         id: string,
-        role: string,
         requestBody: UpdateUserDto,
     ): CancelablePromise<UserWithoutPassword> {
         return __request(OpenAPI, {
@@ -89,9 +82,6 @@ export class UsersService {
             path: {
                 'id': id,
             },
-            query: {
-                'role': role,
-            },
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -99,22 +89,17 @@ export class UsersService {
 
     /**
      * @param id
-     * @param role
      * @returns any
      * @throws ApiError
      */
     public static usersControllerRemove(
         id: string,
-        role: string,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/users/{id}',
             path: {
                 'id': id,
-            },
-            query: {
-                'role': role,
             },
         });
     }

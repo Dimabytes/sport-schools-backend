@@ -13,7 +13,7 @@ export { Group } from './models/Group';
 export type { IdTypeDto } from './models/IdTypeDto';
 export type { JWTDto } from './models/JWTDto';
 export type { LoginDto } from './models/LoginDto';
-export type { Training } from './models/Training';
+export { Training } from './models/Training';
 export { UpdateGroupDto } from './models/UpdateGroupDto';
 export type { UpdateTrainingDto } from './models/UpdateTrainingDto';
 export type { UpdateUserDto } from './models/UpdateUserDto';

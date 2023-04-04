@@ -3,34 +3,38 @@ import {
   IsString,
   IsEnum,
   IsOptional,
-  ValidateNested,
-  IsArray,
+  IsDateString,
 } from 'class-validator';
 import { UserRole } from 'src/modules/users/entities/user.entity';
-import { IdTypeDto } from 'src/types/IdType.dto';
 
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  firstName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  lastName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  middleName: string;
+
+  @IsOptional()
+  @IsString()
+  achievements?: string;
+
+  @IsOptional()
+  @IsString()
+  education?: string;
 
   @IsNotEmpty()
   @IsString()
   email: string;
 
   @IsNotEmpty()
-  @IsString()
-  password: string;
-
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  athleteGroups: IdTypeDto[];
-
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  trainerGroups: IdTypeDto[];
+  @IsDateString()
+  dateOfBirth: Date;
 }
 
 export class CreateUserWithRoleDto extends CreateUserDto {

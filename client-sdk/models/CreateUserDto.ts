@@ -2,13 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IdTypeDto } from './IdTypeDto';
-
 export type CreateUserDto = {
-    name: string;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+    achievements?: string;
+    education?: string;
     email: string;
-    password: string;
-    athleteGroups: Array<IdTypeDto>;
-    trainerGroups: Array<IdTypeDto>;
+    dateOfBirth: string;
 };
 

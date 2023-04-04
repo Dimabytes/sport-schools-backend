@@ -82,6 +82,9 @@ export class TrainingsController implements OnModuleInit {
     @Request() req,
   ): Promise<Training> {
     const user: UserInJwt = req.user;
+    if (user.role === UserRole.ATHLETE) {
+      throw new ForbiddenException();
+    }
     const training = await this.trainingsDao.findById(id);
     const isAllowed = TrainingsService.isTrainingAllowedForUser(training, user);
     if (!isAllowed) {
@@ -93,6 +96,9 @@ export class TrainingsController implements OnModuleInit {
   @Delete(':id')
   async remove(@Param('id') id: string, @Request() req): Promise<void> {
     const user: UserInJwt = req.user;
+    if (user.role === UserRole.ATHLETE) {
+      throw new ForbiddenException();
+    }
     const training = await this.trainingsDao.findById(id);
     const isAllowed = TrainingsService.isTrainingAllowedForUser(training, user);
     if (!isAllowed) {

@@ -11,8 +11,11 @@ import {
 } from 'typeorm';
 import { Training } from '../../trainings/entities/training.entity';
 import { User } from '../../users/entities/user.entity';
-import { KindOfSport } from './KindOfSport';
-import { ApiProperty } from '@nestjs/swagger';
+
+export enum KindOfSport {
+  football = 'football',
+  basketball = 'basket',
+}
 
 @Entity()
 export class Group {

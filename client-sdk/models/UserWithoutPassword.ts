@@ -6,8 +6,13 @@ import type { Group } from './Group';
 
 export type UserWithoutPassword = {
     id: string;
-    name: string;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+    achievements: string;
+    education: string;
     email: string;
+    dateOfBirth: string;
     athleteGroups: Array<Group>;
     trainerGroups: Array<Group>;
     role: UserWithoutPassword.role;

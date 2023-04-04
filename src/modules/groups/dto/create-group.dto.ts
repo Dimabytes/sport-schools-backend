@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { KindOfSport } from '../entities/KindOfSport';
+import { KindOfSport } from '../entities/group.entity';
 import { IdTypeDto } from 'src/types/IdType.dto';
 import { ApiProperty } from '@nestjs/swagger';
 

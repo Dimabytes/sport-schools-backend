@@ -22,13 +22,28 @@ export class User {
   id: string;
 
   @Column({ type: 'text', nullable: false })
-  name: string;
+  firstName: string;
+
+  @Column({ type: 'text', nullable: false })
+  lastName: string;
+
+  @Column({ type: 'text', nullable: false })
+  middleName: string;
+
+  @Column({ type: 'text', nullable: true })
+  achievements: string;
+
+  @Column({ type: 'text', nullable: true })
+  education: string;
 
   @Column({ type: 'text', nullable: false })
   email: string;
 
   @Column({ type: 'text', nullable: false, select: false })
   password: string;
+
+  @Column({ type: 'datetime', nullable: false })
+  dateOfBirth: Date;
 
   @ManyToMany(() => Group, (group) => group.athletes)
   athleteGroups: Group[];

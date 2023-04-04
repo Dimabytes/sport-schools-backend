@@ -30,24 +30,17 @@ export class UsersDao {
     id: string,
     data: UpdateUserDto,
   ): Promise<UserWithoutPassword> {
-    const { password, ...rest } = data;
-    await this.repositories.userRepository.save({
-      ...rest,
-      id,
-      password: password
-        ? await bcrypt.hash(password, process.env.SALT)
-        : undefined,
-    });
+    await this.repositories.userRepository.save(data);
     return this.findById(id);
   }
 
   public async create(
     data: CreateUserWithRoleDto,
+    password: string,
   ): Promise<UserWithoutPassword> {
-    const { password, ...rest } = data;
     const { password: hash, ...createdUser } =
       await this.repositories.userRepository.save({
-        ...rest,
+        ...data,
         password: await bcrypt.hash(password, process.env.SALT),
       });
 

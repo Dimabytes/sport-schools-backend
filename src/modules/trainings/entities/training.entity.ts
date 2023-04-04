@@ -8,6 +8,16 @@ import {
 } from 'typeorm';
 import { Group } from '../../groups/entities/group.entity';
 
+export enum DayOfWeek {
+  MONDAY = 'MONDAY',
+  TUESDAY = 'TUESDAY',
+  WEDNESDAY = 'WEDNESDAY',
+  THURSDAY = 'THURSDAY',
+  FRIDAY = 'FRIDAY',
+  SATURDAY = 'SATURDAY',
+  SUNDAY = 'SUNDAY',
+}
+
 @Entity()
 export class Training {
   @PrimaryGeneratedColumn('uuid')
@@ -18,6 +28,9 @@ export class Training {
 
   @Column({ type: 'text', nullable: false })
   endTime: string;
+
+  @Column({ type: 'text', nullable: false })
+  dayOfWeek: DayOfWeek;
 
   @ManyToOne(() => Group, (group) => group.trainings, {
     nullable: false,
