@@ -42,7 +42,7 @@ export class User {
   @Column({ type: 'text', nullable: false, select: false })
   password: string;
 
-  @Column({ type: 'datetime', nullable: false })
+  @Column({ type: 'date', nullable: false })
   dateOfBirth: Date;
 
   @ManyToMany(() => Group, (group) => group.athletes)

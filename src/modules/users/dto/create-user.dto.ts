@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsOptional,
   IsDateString,
+  MaxLength,
 } from 'class-validator';
 import { UserRole } from 'src/modules/users/entities/user.entity';
 
@@ -33,6 +34,7 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty()
+  @MaxLength(10)
   @IsDateString()
   dateOfBirth: Date;
 }
