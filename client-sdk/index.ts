@@ -7,7 +7,7 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export { CreateGroupDto } from './models/CreateGroupDto';
-export type { CreateTrainingDto } from './models/CreateTrainingDto';
+export { CreateTrainingDto } from './models/CreateTrainingDto';
 export type { CreateUserDto } from './models/CreateUserDto';
 export { Group } from './models/Group';
 export type { IdTypeDto } from './models/IdTypeDto';
@@ -15,7 +15,7 @@ export type { JWTDto } from './models/JWTDto';
 export type { LoginDto } from './models/LoginDto';
 export { Training } from './models/Training';
 export { UpdateGroupDto } from './models/UpdateGroupDto';
-export type { UpdateTrainingDto } from './models/UpdateTrainingDto';
+export { UpdateTrainingDto } from './models/UpdateTrainingDto';
 export type { UpdateUserDto } from './models/UpdateUserDto';
 export { User } from './models/User';
 export { UserWithoutPassword } from './models/UserWithoutPassword';
